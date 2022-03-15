@@ -69,15 +69,14 @@ func (resource *resource) Get(c *gin.Context) {
 	user, err := resource.service.Get(uint(id))
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
-			"error" : err.Error(),
-
+			"error": err.Error(),
 		})
 		return
 	}
-  c.JSON(http.StatusOK, gin.H{
-	  "message" : "successfully get user",
-	  "data" : user,
-  })
+	c.JSON(http.StatusOK, gin.H{
+		"message": "successfully get user",
+		"data":    user,
+	})
 
 }
 
@@ -86,35 +85,32 @@ func (resource *resource) Put(c *gin.Context) {
 	_, err := resource.service.Get(uint(id))
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
-			"error" : err.Error(),
-
+			"error": err.Error(),
 		})
 		return
 	}
-	
+
 	updateUser := User{}
-	if err := c.BindJSON(&updateUser); 
-	err != nil {
+	if err := c.BindJSON(&updateUser); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
 		})
 		return
-}
+	}
 
-user, err := resource.service.Update(uint(id), &updateUser)
-if err != nil {
+	user, err := resource.service.Update(uint(id), &updateUser)
+	if err != nil {
 
-c.JSON(http.StatusUnprocessableEntity, gin.H{
-	"error" : err.Error(),
-})
-return
-}
-c.JSON(http.StatusOK, gin.H{
+		c.JSON(http.StatusUnprocessableEntity, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
 
-
-	"message" : "Update the user",
-	"data" : user,
-})
+		"message": "Update the user",
+		"data":    user,
+	})
 }
 
 func (resource *resource) Delete(c *gin.Context) {
@@ -122,25 +118,20 @@ func (resource *resource) Delete(c *gin.Context) {
 	_, err := resource.service.Get(uint(id))
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
-			"error" : err.Error(),
-
+			"error": err.Error(),
 		})
 		return
 	}
-      resource.service.Delete(uint(id))
-	  if err != nil{
-  
+	resource.service.Delete(uint(id))
+	if err != nil {
+
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"error" : err.Error(),
+			"error": err.Error(),
 		})
 		return
 	}
 	c.JSON(http.StatusNoContent, gin.H{
-			"message" : "successfully deleted",
-		
-	  
+		"message": "successfully deleted",
+	})
 
-  })
-
-	
 }
