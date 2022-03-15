@@ -28,7 +28,10 @@ func (repository *repository) Query(offset, limit int, q string) ([]User, error)
 }
 
 func (repository *repository) Get(id uint) (User, error) {
-	return User{}, nil
+
+	user := User{}
+	err := repository.db.Debug().Model(&User{}).First(&user,id).Error
+	return user, err
 }
 
 func (repository *repository) Create(req *User) error {
@@ -36,9 +39,15 @@ func (repository *repository) Create(req *User) error {
 }
 
 func (repository *repository) Update(id uint, update *User) error {
-	return nil
+	err := repository.db.Debug().Model(&User{}).
+	Where("id = ?", id).
+	Updates(&update).Error
+	return err
 }
+	
+
 
 func (repository *repository) Delete(id uint) error {
-	return nil
+	err := repository.db.Debug().Model(&User{}).Delete(&User{},id).Error
+return err
 }

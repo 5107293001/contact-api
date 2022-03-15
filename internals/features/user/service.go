@@ -26,16 +26,17 @@ func (service *service) Query(offset, limit int, q string) ([]User, error) {
 	return service.repo.Query(offset,limit,q)
 }
 func (service *service) Get(id uint) (User, error) {
-	return User{}, nil
+	return service.repo.Get(id)
 }
 func (service *service) Create(req *User) (User, error) {
 	err := service.repo.Create(req)
 	return *req, err
 }
 func (service *service) Update(id uint, update *User) (User, error) {
-	return User{}, nil
+	err := service.repo.Update(id, update)
+	return *update, err
 }
 func (service *service) Delete(id uint) error {
-	return nil
+	return service.repo.Delete(id)
 
 }
